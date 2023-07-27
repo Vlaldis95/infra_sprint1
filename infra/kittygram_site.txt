@@ -1,0 +1,5 @@
+IP: 158.160.3.79;
+name_taski: https://taskis.ddns.net;
+name_kittygram: https://kittygrams.ddns.net;
+login: vlaldis;
+password: dfbhn543;
