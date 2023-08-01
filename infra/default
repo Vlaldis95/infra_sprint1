@@ -1,71 +1,66 @@
-server {
-    server_name 158.160.3.79 taskis.ddns.net;
+server { 
+    server_name 158.160.3.79 taskis.ddns.net; 
+    server_tokens off;
+    if ($scheme = http) {
+    return 301 https://$server_name$request_uri;}
+ 
+    location /api/ { 
+        proxy_pass http://127.0.0.1:8000; 
+    } 
 
-    location /api/ {
-        proxy_pass http://127.0.0.1:8000;
-    }
+    location /admin/ { 
+        proxy_pass http://127.0.0.1:8000; 
+    } 
 
-    location /admin/ {
-        proxy_pass http://127.0.0.1:8000;
-    }
-
-    location / {
-        root   /var/www/taski;
-        index  index.html index.htm;
+    location / { 
+        root   /var/www/taski; 
+        index  index.html index.htm; 
         try_files $uri /index.html;
-    }
+    } 
 
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/taskis.ddns.net/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/taskis.ddns.net/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
-}
-server {
-    server_name 158.160.3.79 kittygrams.ddns.net;
-location /api/ {
-        proxy_pass http://127.0.0.1:8080;
-        client_max_body_size 20M;
-    }
-
-    location /admin/ {
-        proxy_pass http://127.0.0.1:8080;
-        client_max_body_size 20M;
- }
-    location / {
-        root   /var/www/kittygram;
-        index  index.html index.htm;
-        try_files $uri /index.html;
-    }
-    location /media {
-    alias /var/www/kittygram/media;
-   }
-
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/taskis.ddns.net/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/taskis.ddns.net/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    listen 443 ssl; # managed by Certbot 
+    ssl_certificate /etc/letsencrypt/live/taskis.ddns.net/fullchain.pem; # managed by Certbot 
+    ssl_certificate_key /etc/letsencrypt/live/taskis.ddns.net/privkey.pem; # managed by Certbot 
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot 
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot 
 
 }
-server {
-    if ($host = kittygrams.ddns.net) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
 
-listen 80;
-    server_name 158.160.3.79 kittygrams.ddns.net;
-    return 404; # managed by Certbot
+server { 
+    listen 80;
+    server_name 158.160.3.79 kittygrams.ddns.net; 
+    server_tokens off;
+    client_max_body_size 20M;
+    if ($scheme = http) {
+    return 301 https://$server_name$request_uri;}   
 
+location /api/ { 
+        proxy_pass http://127.0.0.1:8080; 
+        client_max_body_size 20M; 
+    } 
 
-}server {
-    if ($host = taskis.ddns.net) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
+    location /admin/ { 
+        proxy_pass http://127.0.0.1:8080; 
+        client_max_body_size 20M; 
+ } 
 
-listen 80;
-    server_name 158.160.3.79 taskis.ddns.net;
-    return 404; # managed by Certbot
+    location / { 
+        root   /var/www/kittygram; 
+        index  index.html index.htm; 
+        try_files $uri /index.html; 
+    } 
+
+    location /media { 
+    alias /var/www/kittygram/media; 
+   } 
+
+    listen 443 ssl; # managed by Certbot 
+    ssl_certificate /etc/letsencrypt/live/taskis.ddns.net/fullchain.pem; # managed by Certbot 
+    ssl_certificate_key /etc/letsencrypt/live/taskis.ddns.net/privkey.pem; # managed by Certbot 
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot 
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot 
 
 }
+ 
+
+
